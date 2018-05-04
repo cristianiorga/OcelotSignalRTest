@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+</head>
+<body>
+    
+    <script src="signalr.min.js"></script>
+
+    <script>
+        //const server = "http://localhost:50000/dummy";
+        const server = "http://localhost:60000/api/dummy";
+
+        const connection = new signalR.HubConnection(server, { logger: signalR.LogLevel.Information });
+        connection
+            .on("broadcastMessage", (user, message) => {
+                console.log(user + ": " + message);
+        });
+        connection
+            .start()
+            .then(() => {
+                connection.send("Send", "cristian", "dummy message from web app").catch(err => console.error);
+            })
+            .catch(err => console.error);
+
+    </script>
+
+</body>
+</html>
